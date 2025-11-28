@@ -1,5 +1,6 @@
-package com.wizsmith.technicianapp.api.models
+package com.wizsmith.technicianapp.models
 
 data class LockListResponse(
-    val locks: List<Lock>
+    val total: Int,
+    val lockList: List<Lock>
 )

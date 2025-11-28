@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -13,7 +14,6 @@ android {
         targetSdk 34
         versionCode 1
         versionName "1.0"
-
         multiDexEnabled true
     }
 
@@ -33,35 +33,39 @@ android {
     buildFeatures {
         buildConfig = true
         viewBinding = true
+        dataBinding = true
     }
 
-    // REQUIRED to load .aar files
-    repositories {
-        flatDir {
-            dirs 'libs'
-        }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
     }
 }
 
 dependencies {
+    // Retrofit & Gson for API calls
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11'
 
-    // TTLock SDK .aar (actual SDK)
-    implementation(name: 'TTLockSDK', ext: 'aar')
-
-    // Required by TTLock
-    implementation 'no.nordicsemi.android:dfu:1.12.0'
-    implementation 'com.google.code.gson:gson:2.10.1'
-    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
-    implementation 'com.squareup.okio:okio:3.4.0'
+    // Kotlin Coroutines
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
 
     // AndroidX
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.recyclerview:recyclerview:1.3.2'
 
-    // BLE permissions helpers (recommended)
+    // BLE permissions helpers (optional, can remove if not using)
     implementation 'pub.devrel:easypermissions:3.0.0'
 
-    // Kotlin
+    // Gson
+    implementation 'com.google.code.gson:gson:2.10.1'
+
+    // Kotlin Standard Library
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
 }
